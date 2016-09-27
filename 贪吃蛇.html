@@ -95,83 +95,84 @@
 		},false);
 
 		function startmove(keys){
-			var direction = keys;
-			switch(direction){
+			let temp = snake.head_position
+			switch(keys){
 				//↑ 
 				case 38:
-				move_up()
+				move_up(temp)
 				drawhead()
 				initdrawbody()
 				break;
 				// 下
 				case 40:
-				move_down()
+				move_down(temp)
 				drawhead()
 				initdrawbody()
 				break;
 				// 左
 				case 37:
-				move_left()
+				move_left(temp)
 				drawhead()
 				initdrawbody()
 				break;
 				// 右
 				case 39:
-				move_right()
+				move_right(temp)
 				drawhead()
 				initdrawbody()
 				break;
 				default:return;
 			}
-			for(let i =0 ; i<25;i++){
-				for(let j =0;j<25;j++){
-					if(play_block[i][j]==0)
-						ctx.fillStyle='#F1EDED'
-						ctx.fillRect(i*20,j*20,20,20);
-				}
-			}	
 		}
-		function move_up(){
+		function move_up(temp){
 			if(snake.direction=='down')
 				return;
 			snake.direction='up';
-			snake.body_position.push(snake.head_position);
+			snake.body_position.push([temp[0],temp[1]]);
 			let a = snake.body_position.shift()
-			play_block[a[0]][a[1]]=0;
+			play_block[a[0]][a[1]]=0;						
+			ctx.fillStyle='#F1EDED'
+			ctx.fillRect(a[0]*20,a[1]*20,20,20);
 			play_block[snake.head_position[0]][snake.head_position[1]]=2;
 			snake.head_position[1]-=1;
 			play_block[snake.head_position[0]][snake.head_position[1]]=1;
 		}
-		function move_down(){
+		function move_down(temp){
 			if(snake.direction=='up')
 				return;
 			snake.direction='down';
-			snake.body_position.push(snake.head_position);
+			snake.body_position.push([temp[0],temp[1]]);
 			let a = snake.body_position.shift()
 			play_block[a[0]][a[1]]=0;
+			ctx.fillStyle='#F1EDED'
+			ctx.fillRect(a[0]*20,a[1]*20,20,20);
 			play_block[snake.head_position[0]][snake.head_position[1]]=2;
 			snake.head_position[1]+=1;
 			play_block[snake.head_position[0]][snake.head_position[1]]=1;
 		}
-		function move_left(){
+		function move_left(temp){
 			if(snake.direction=='right')
 				return;
 			snake.direction='left';
-			snake.body_position.push(snake.head_position);
+			snake.body_position.push([temp[0],temp[1]]);
 			let a = snake.body_position.shift()
 			play_block[a[0]][a[1]]=0;
+			ctx.fillStyle='#F1EDED'
+			ctx.fillRect(a[0]*20,a[1]*20,20,20);
 			play_block[snake.head_position[0]][snake.head_position[1]]=2;
 			snake.head_position[0]-=1;
 			play_block[snake.head_position[0]][snake.head_position[1]]=1;
 		}
-		function move_right(){
-				if(snake.direction=='left')
-				return;
+		function move_right(temp){
+			if(snake.direction=='left')
+			return;
 			snake.direction='right';
-			snake.body_position.push(snake.head_position);
+			snake.body_position.push([temp[0],temp[1]]);
 			let a = snake.body_position.shift()
 			play_block[a[0]][a[1]]=0;
-			play_block[snake.head_position[0]][snake.head_position[1]]=2;
+			ctx.fillStyle='#F1EDED'
+			ctx.fillRect(a[0]*20,a[1]*20,20,20);
+			play_block[temp[0]][temp[1]]=2;
 			snake.head_position[0]+=1;
 			play_block[snake.head_position[0]][snake.head_position[1]]=1;
 		}
