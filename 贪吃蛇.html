@@ -213,6 +213,10 @@
 			play_block[a[0]][a[1]]=0;								
 			ctx.fillStyle='#F1EDED'
 			ctx.fillRect(a[0]*20,a[1]*20,20,20);
+			if(play_block[snake.head_position[0]][snake.head_position[1]]==2){
+						alert('你把自己吃了');
+						location.reload();
+					}
 			}
 			else{
 				createfood()
@@ -232,6 +236,10 @@
 			play_block[a[0]][a[1]]=0;		
 			ctx.fillStyle='#F1EDED'
 			ctx.fillRect(a[0]*20,a[1]*20,20,20);
+			if(play_block[snake.head_position[0]][snake.head_position[1]]==2){
+						alert('你把自己吃了');
+						location.reload();
+					}
 			}
 			else{
 				createfood()
@@ -250,6 +258,10 @@
 			play_block[a[0]][a[1]]=0;
 			ctx.fillStyle='#F1EDED'
 			ctx.fillRect(a[0]*20,a[1]*20,20,20);
+			if(play_block[snake.head_position[0]][snake.head_position[1]]==2){
+						alert('你把自己吃了');
+						location.reload();
+					}
 			}
 			else{			
 				createfood()
@@ -268,6 +280,10 @@
 			play_block[a[0]][a[1]]=0;
 			ctx.fillStyle='#F1EDED'
 			ctx.fillRect(a[0]*20,a[1]*20,20,20);
+					if(play_block[snake.head_position[0]][snake.head_position[1]]==2){
+						alert('你把自己吃了');
+						location.reload();
+					}
 			}
 			else{
 				createfood()
