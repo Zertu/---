@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" >
+		<meta lang="zh-ch">
+		<title>贪吃蛇</title>
+	</head>
+	<body>
+		<canvas id="tanchishe" width="700px" height="700px" style="background: #F1EDED"></canvas>
+	</body>
+	<script type="text/javascript">
+		'use strict'
+		//界面绘制
+		var ctx =document.getElementById('tanchishe').getContext('2d');
+
+		for(let i=0;i<26;i++){
+		ctx.lineWidth=0.5;
+		ctx.moveTo(i*20+100,100);
+		ctx.lineTo(i*20+100,600);
+		ctx.stroke()
+		ctx.moveTo(100,i*20+100)
+		ctx.lineTo(600,i*20+100);
+		ctx.stroke()
+		}
+		// 定义配置
+		var snake={
+			snakelength:3,
+			isalive:true,
+			head_position:[17,17],
+			direction:'right',
+			body_position:[[15,17],[16,17]]
+		}
+		// 初始化
+		var play_block=[];
+		for(let j=0;j<25;j++){
+			play_block[j]=[]
+			for(let k=0;k<25;k++){
+				play_block[j][k]=0;
+			}
+		}
+		var config={
+			0:'nonthing',
+			1:'head',
+			2:'body',
+			3:'border'
+		}
+		for(let i =0;i<25;i++){
+			play_block[0][i]=3;
+			play_block[i][0]=3;
+			play_block[24][i]=3;
+			play_block[i][24]=3
+		}
+		function gamestart(diffculty){
+			play_block[snake.head_position[0]][snake.head_position[1]]=1;
+			for(let i in snake.body_position){
+				play_block[snake.body_position[i][0]][snake.body_position[i][1]]=2
+			}
+			drawborder()
+			drawhead()
+			initdrawbody()
+		}
+		function drawborder(){
+			for(let i=0;i<25;i++){
+			for(let j=0;j<25;j++){
+				if(play_block[i][j]==3){
+					ctx.fillStyle='black'
+					ctx.fillRect(i*20+100,j*20+100,20,20)
+				}
+			}
+		}}
+		var color='rgb(' + Math.floor(255-255*Math.random()) + ',' +Math.floor(255-255*Math.random()) + ','+Math.floor(255-255*Math.random())+')';
+		function drawhead(){
+			ctx.fillStyle = '#1B6D85';
+			for(let i=0;i<25;i++){
+				for(let j=0;j<25;j++){
+					if(play_block[i][j]==1)
+					ctx.fillRect(i*20,j*20,20,20);
+				}
+			}
+		}
+		function initdrawbody(){
+			ctx.fillStyle = 'rgb(' + Math.floor(255-255*Math.random()) + ',' +Math.floor(255-255*Math.random()) + ','+Math.floor(255-255*Math.random())+')';
+			for(let i =0 ; i<25;i++){
+				for(let j =0;j<25;j++){
+					if(play_block[i][j]==2)
+						ctx.fillRect(i*20,j*20,20,20);
+				}
+			}			
+		}
+		gamestart();
+		// 移动的逻辑
+		window.addEventListener('keydown', function(){
+					var keys=window.event.keyCode;
+					startmove(keys);
+		},false);
+
+		function startmove(keys){
+			var direction = keys;
+			switch(direction){
+				//↑ 
+				case 38:
+				move_up()
+				drawhead()
+				initdrawbody()
+				break;
+				// 下
+				case 40:
+				move_down()
+				drawhead()
+				initdrawbody()
+				break;
+				// 左
+				case 37:
+				move_left()
+				drawhead()
+				initdrawbody()
+				break;
+				// 右
+				case 39:
+				move_right()
+				drawhead()
+				initdrawbody()
+				break;
+				default:return;
+			}
+			for(let i =0 ; i<25;i++){
+				for(let j =0;j<25;j++){
+					if(play_block[i][j]==0)
+						ctx.fillStyle='#F1EDED'
+						ctx.fillRect(i*20,j*20,20,20);
+				}
+			}	
+		}
+		function move_up(){
+			if(snake.direction=='down')
+				return;
+			snake.direction='up';
+			snake.body_position.push(snake.head_position);
+			let a = snake.body_position.shift()
+			play_block[a[0]][a[1]]=0;
+			play_block[snake.head_position[0]][snake.head_position[1]]=2;
+			snake.head_position[1]-=1;
+			play_block[snake.head_position[0]][snake.head_position[1]]=1;
+		}
+		function move_down(){
+			if(snake.direction=='up')
+				return;
+			snake.direction='down';
+			snake.body_position.push(snake.head_position);
+			let a = snake.body_position.shift()
+			play_block[a[0]][a[1]]=0;
+			play_block[snake.head_position[0]][snake.head_position[1]]=2;
+			snake.head_position[1]+=1;
+			play_block[snake.head_position[0]][snake.head_position[1]]=1;
+		}
+		function move_left(){
+			if(snake.direction=='right')
+				return;
+			snake.direction='left';
+			snake.body_position.push(snake.head_position);
+			let a = snake.body_position.shift()
+			play_block[a[0]][a[1]]=0;
+			play_block[snake.head_position[0]][snake.head_position[1]]=2;
+			snake.head_position[0]-=1;
+			play_block[snake.head_position[0]][snake.head_position[1]]=1;
+		}
+		function move_right(){
+				if(snake.direction=='left')
+				return;
+			snake.direction='right';
+			snake.body_position.push(snake.head_position);
+			let a = snake.body_position.shift()
+			play_block[a[0]][a[1]]=0;
+			play_block[snake.head_position[0]][snake.head_position[1]]=2;
+			snake.head_position[0]+=1;
+			play_block[snake.head_position[0]][snake.head_position[1]]=1;
+		}
+	</script>
+</html>
