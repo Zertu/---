@@ -10,13 +10,15 @@
 		<div style="float:left;width:300px">
 			<input type="button" value="开始游戏" onclick="gamestart()" />
 			<br />
-			<span>你的分数：<b id="point">0</b></span>
-			<br />
 		难度选择:<select id="diffculty" value='难度选择'>
 			<option value ="1">1</option>
 	 		<option value ="2">2</option>
 		 	<option value="3">3</option>
 	 		<option value="4">4</option>
+	 		<option value="5">5</option>
+	 		<option value="6">6</option>
+	 		<option value="7">7</option>
+	 		<option value="8">8</option>
  		</select><input type="button" id="sele" value="确定" />
  		<br />
 		<input type="button" value="暂停" onclick="alert('已暂停')" />
@@ -177,23 +179,23 @@
 				case('up'):
 					timer=setInterval(function(){
 						tempup()
-					},1000/diffculty,window)
+					},300/diffculty,window)
 					break;
 				case('down'):
 					timer=setInterval(function(){
 						tempdown()
-					},1000/diffculty,window)
+					},300/diffculty,window)
 					break;
 				case('left'):
 					clearInterval(timer)
 					timer=setInterval(function(){
 						templeft()
-					},1000/diffculty,window)
+					},300/diffculty,window)
 					break;
 				case('right'):
 					timer=setInterval(function(){
 						tempright()
-					},1000/diffculty,window)
+					},300/diffculty,window)
 					break;
 				default:
 				return;
@@ -213,7 +215,6 @@
 			ctx.fillRect(a[0]*20,a[1]*20,20,20);
 			}
 			else{
-				changepoint()
 				createfood()
 				drawfood()
 			}
@@ -233,7 +234,6 @@
 			ctx.fillRect(a[0]*20,a[1]*20,20,20);
 			}
 			else{
-				changepoint()
 				createfood()
 				drawfood()
 			}
@@ -251,8 +251,7 @@
 			ctx.fillStyle='#F1EDED'
 			ctx.fillRect(a[0]*20,a[1]*20,20,20);
 			}
-			else{
-				changepoint()				
+			else{			
 				createfood()
 				drawfood()
 			}			
@@ -271,7 +270,6 @@
 			ctx.fillRect(a[0]*20,a[1]*20,20,20);
 			}
 			else{
-				changepoint()
 				createfood()
 				drawfood()
 			}			
@@ -290,11 +288,6 @@
 				alert('你死了')
 				location.reload();
 			}
-		}
-		// 
-		function changepoint(){
-				snake.snakelength++;
-				document.getElementById('point').innerHTML=(snakelength-2)*10;
 		}
 		document.getElementById('sele').onclick=function(){
 			 let  myselect=document.getElementById("diffculty");
