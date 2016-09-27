@@ -7,21 +7,12 @@
 	</head>
 	<body>
 		<canvas id="tanchishe" width="700px" height="700px" style="background: #F1EDED"></canvas>
+		<input type="button" value="开始游戏" onclick="gamestart()" />
 	</body>
 	<script type="text/javascript">
 		'use strict'
 		//界面绘制
 		var ctx =document.getElementById('tanchishe').getContext('2d');
-
-		for(let i=0;i<26;i++){
-		ctx.lineWidth=0.5;
-		ctx.moveTo(i*20+100,100);
-		ctx.lineTo(i*20+100,600);
-		ctx.stroke()
-		ctx.moveTo(100,i*20+100)
-		ctx.lineTo(600,i*20+100);
-		ctx.stroke()
-		}
 		// 定义配置
 		var snake={
 			snakelength:3,
@@ -32,9 +23,9 @@
 		}
 		// 初始化
 		var play_block=[];
-		for(let j=0;j<25;j++){
+		for(let j=5;j<30;j++){
 			play_block[j]=[]
-			for(let k=0;k<25;k++){
+			for(let k=5;k<30;k++){
 				play_block[j][k]=0;
 			}
 		}
@@ -44,35 +35,42 @@
 			2:'body',
 			3:'border'
 		}
-		for(let i =0;i<25;i++){
-			play_block[0][i]=3;
-			play_block[i][0]=3;
-			play_block[24][i]=3;
-			play_block[i][24]=3
+		for(let i =5;i<30;i++){
+			play_block[5][i]=3;
+			play_block[i][5]=3;
+			play_block[29][i]=3;
+			play_block[i][29]=3
 		}
 		function gamestart(diffculty){
-			play_block[snake.head_position[0]][snake.head_position[1]]=1;
+			try{
+				play_block[snake.head_position[0]][snake.head_position[1]]=1;
 			for(let i in snake.body_position){
 				play_block[snake.body_position[i][0]][snake.body_position[i][1]]=2
 			}
-			drawborder()
-			drawhead()
-			initdrawbody()
+				drawborder()
+				drawhead()
+				initdrawbody()
+			}
+			catch(e){
+				alert('你死了')
+				ctx.fillStyle='#F1EDED'
+				ctx.fillRect(0,0,700,700)
+			}
 		}
 		function drawborder(){
-			for(let i=0;i<25;i++){
-			for(let j=0;j<25;j++){
+			for(let i=5;i<30;i++){
+			for(let j=5;j<30;j++){
 				if(play_block[i][j]==3){
 					ctx.fillStyle='black'
-					ctx.fillRect(i*20+100,j*20+100,20,20)
+					ctx.fillRect(i*20,j*20,20,20)
 				}
 			}
 		}}
 		var color='rgb(' + Math.floor(255-255*Math.random()) + ',' +Math.floor(255-255*Math.random()) + ','+Math.floor(255-255*Math.random())+')';
 		function drawhead(){
 			ctx.fillStyle = '#1B6D85';
-			for(let i=0;i<25;i++){
-				for(let j=0;j<25;j++){
+			for(let i=5;i<30;i++){
+				for(let j=5;j<30;j++){
 					if(play_block[i][j]==1)
 					ctx.fillRect(i*20,j*20,20,20);
 				}
@@ -80,53 +78,99 @@
 		}
 		function initdrawbody(){
 			ctx.fillStyle = 'rgb(' + Math.floor(255-255*Math.random()) + ',' +Math.floor(255-255*Math.random()) + ','+Math.floor(255-255*Math.random())+')';
-			for(let i =0 ; i<25;i++){
-				for(let j =0;j<25;j++){
+			for(let i =5 ; i<30;i++){
+				for(let j =5;j<30;j++){
 					if(play_block[i][j]==2)
 						ctx.fillRect(i*20,j*20,20,20);
 				}
 			}			
 		}
-		gamestart();
 		// 移动的逻辑
 		window.addEventListener('keydown', function(){
-					var keys=window.event.keyCode;
-					startmove(keys);
+			var keys=window.event.keyCode;
+			 startmove(keys);
 		},false);
-
 		function startmove(keys){
-			let temp = snake.head_position
+			
+			function tempup(){
+						let temp = snake.head_position;
+						move_up(temp);
+						drawhead();
+						initdrawbody();
+			}
+			function tempdown(){
+						let temp = snake.head_position;
+						move_down(temp);
+						drawhead();
+						initdrawbody();
+			}
+			function templeft(){
+						let temp = snake.head_position;
+						move_left(temp);
+						drawhead();
+						initdrawbody();
+			}
+			function tempright(){
+						let temp = snake.head_position;
+						move_right(temp);
+						drawhead();
+						initdrawbody();
+			}
 			switch(keys){
-				//↑ 
+				//上 
 				case 38:
-				move_up(temp)
-				drawhead()
-				initdrawbody()
+				if(snake.direction=='down')
+				return;
+				snake.direction='up'
 				break;
 				// 下
 				case 40:
-				move_down(temp)
-				drawhead()
-				initdrawbody()
+				if(snake.direction=='up')
+				return;
+				snake.direction='down'
 				break;
 				// 左
 				case 37:
-				move_left(temp)
-				drawhead()
-				initdrawbody()
+				if(snake.direction=='right')
+				return;
+				snake.direction='left'
 				break;
 				// 右
 				case 39:
-				move_right(temp)
-				drawhead()
-				initdrawbody()
+				if(snake.direction=='left')
+				return;
+				snake.direction='right'
 				break;
 				default:return;
 			}
+			var timer = null;
+			switch(snake.direction){
+				case('up'):
+					clearInterval(timer)
+					timer=setInterval(tempup,500,window)
+					timer=null
+					break;
+				case('down'):
+					clearInterval(timer)
+					timer=setInterval(tempdown,500,window).
+					timer=null
+					break;
+				case('left'):
+					clearInterval(timer)
+					timer=setInterval(templeft,500,window)
+					timer=null
+					break;
+				case('right'):
+					clearInterval(timer)
+					timer=setInterval(tempright,500,window)
+					timer=null
+					break;
+				default:
+				return;
+			}
 		}
 		function move_up(temp){
-			if(snake.direction=='down')
-				return;
+			isalive(temp)
 			snake.direction='up';
 			snake.body_position.push([temp[0],temp[1]]);
 			let a = snake.body_position.shift()
@@ -138,8 +182,7 @@
 			play_block[snake.head_position[0]][snake.head_position[1]]=1;
 		}
 		function move_down(temp){
-			if(snake.direction=='up')
-				return;
+			isalive(temp)
 			snake.direction='down';
 			snake.body_position.push([temp[0],temp[1]]);
 			let a = snake.body_position.shift()
@@ -151,8 +194,7 @@
 			play_block[snake.head_position[0]][snake.head_position[1]]=1;
 		}
 		function move_left(temp){
-			if(snake.direction=='right')
-				return;
+			isalive(temp)
 			snake.direction='left';
 			snake.body_position.push([temp[0],temp[1]]);
 			let a = snake.body_position.shift()
@@ -164,8 +206,7 @@
 			play_block[snake.head_position[0]][snake.head_position[1]]=1;
 		}
 		function move_right(temp){
-			if(snake.direction=='left')
-			return;
+			isalive(temp)
 			snake.direction='right';
 			snake.body_position.push([temp[0],temp[1]]);
 			let a = snake.body_position.shift()
@@ -175,6 +216,12 @@
 			play_block[temp[0]][temp[1]]=2;
 			snake.head_position[0]+=1;
 			play_block[snake.head_position[0]][snake.head_position[1]]=1;
+		}
+		function isalive(temp){
+				if(temp[0]<7||temp[0]>28||temp[1]<7||temp[1]>28){
+				alert('你死了')
+				location.reload();
+			}
 		}
 	</script>
 </html>
