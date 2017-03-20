@@ -6,24 +6,6 @@
 	<meta lang="zh-ch">
 	<title>贪吃蛇</title>
 	<style>
-		#a {
-			position: relative;
-			width: 600px;
-			height: 400px;
-			border: 3px solid #333;
-			overflow: hidden;
-		}
-		#list {
-			position: absolute;
-            z-index: 1;
-            width: 3000px;
-            height: 400px;
-		}
-		#a img {
-			width: 600px;
-			height: 400px;
-			float: left;
-		}
 	</style>
 </head>
 
@@ -44,15 +26,6 @@
  		</select><input type="button" id="sele" value="确定" />
 		<br />
 		<input type="button" value="暂停" onclick="alert('已暂停')" />
-	</div>
-	<div id="a">
-		<div id="list">
-			<img src="http://www.picperweek.com/resource/image/dbc3c16b-5fc6-48e5-aa48-c64739739da2.png" />
-			<img src="http://images2015.cnblogs.com/blog/710005/201510/710005-20151013120938460-1659283599.jpg" />
-			<img src="http://images2015.cnblogs.com/blog/710005/201510/710005-20151013120949101-1478254618.jpg" />
-			<img src="http://images2015.cnblogs.com/blog/710005/201510/710005-20151013120958226-1311965779.jpg" />
-			<img src="http://images2015.cnblogs.com/blog/710005/201510/710005-20151013120918022-414195233.jpg" />
-		</div>
 	</div>
 </body>
 <script type="text/javascript">
@@ -355,8 +328,6 @@
 		let myindex = document.getElementById("diffculty").selectedIndex;
 		diffculty = myselect.options[myindex].value
 	}
-</script>
-<script src="./test.js">
 </script>
 
 </html>
